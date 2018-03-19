@@ -2,7 +2,7 @@ xCenter = centerhoriz;
 yCenter = centervert;
 
 % Number of sides for our polygon
-LineWidth = 7;
+LineWidth = 15;
 LineLength = 150;
 ArrowLength = LineLength/2;
 ArrowProj = ArrowLength * sin(pi/4);

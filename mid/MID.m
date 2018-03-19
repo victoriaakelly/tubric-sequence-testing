@@ -9,8 +9,6 @@ isscan = input('practice = 0 scan = 1: ');
 Screen('Preference', 'SkipSyncTests', 1);
 global thePath; rand('state',sum(100*clock));
 
-
-
 % Add this at top of new scripts for maximum portability due to unified names on all systems:
 KbName('UnifyKeyNames');
 %Screen('Preference', 'VisualDebuglevel', 3);
@@ -72,12 +70,14 @@ catch
 end
 
 if ~isempty(practice_files)                             % checks to see whether there is practice data or not. Overwrite if there is
-    load(practice_files(end,1:end-1),'RTs'); % practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
+    load(practice_files,'RTs'); %(1:end-1) practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
 end
 
 for i=1:length(unique(trial_cond))                     % sets starting RT_thresh for each condition
     if isempty(practice_files)
         [RT_thresh(i)] = set_MID_threshold([]);
+    else
+        [RT_thresh(i)] = set_MID_threshold(RTs(:,i));
     end
 end
 Screen('CloseAll')
@@ -92,7 +92,7 @@ screenNumber = max(screens); HideCursor;
 
 % USE THESE LINES FOR SET SCREEN
 screenRect = [ 0 0 1024 768];
-[Window, Rect] = Screen('OpenWindow', screenNumber, 0);%, screenRect);
+[Window, Rect] = Screen('OpenWindow', screenNumber, 0, screenRect);
 Screen('TextSize',Window,text_size);
 Screen('FillRect', Window, 0);  % 0 = black background
 
@@ -143,7 +143,7 @@ Screen('DrawTexture', Window, fix2);
 Screen('Flip', Window);
 WaitSecs(2);
 
-for t = 1:length(trial_cond)
+for t = 1:3%length(trial_cond)
     %Present Cue
     if trial_cond(t) == 1
         Screen('DrawTexture', Window, high_cue);
@@ -206,7 +206,7 @@ output.fix1 =fix1_duration;
 output.fix2 = fix2_duration;
 
 
-save([thePath.data '/' num2str(subnum) '/output_' num2str(subnum) '.mat'], 'stim', 'output')
+save([thePath.data '/' num2str(subnum) '/output_' num2str(isscan) '.mat'], 'stim', 'output')
 if isscan == 0
     save([thePath.data '/' num2str(subnum) '/practice_array.mat'], 'RTs')
 end

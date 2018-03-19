@@ -1,7 +1,9 @@
 clear all;
 close all;
 
-prompt = 'Enter subject number: ';
+subix  = 'Enter subject name: ';
+subID  = input(subix,'s');
+prompt = 'Enter block number: ';
 subjectnum = input(prompt);
 
 if ~ischar(subjectnum)
@@ -11,7 +13,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 
 %Make outputdir if it does not already exist%%%
 maindir = pwd;
-outputdir = fullfile(maindir,'data',subjectnum);
+outputdir = fullfile(maindir,'data',subID,subjectnum);
 if ~exist(outputdir,'dir')
     mkdir(outputdir);
 end

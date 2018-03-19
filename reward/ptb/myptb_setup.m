@@ -3,9 +3,9 @@ white = [255 255 255];
 red = [255 0 0];
 green = [0 255 0];
 
-L_arrow = KbName('3#');
+L_arrow = KbName('2@');
 D_arrow = KbName('DownArrow');
-R_arrow = KbName('4$');
+R_arrow = KbName('3#');
 esc_key = KbName('ESCAPE');
 trigger = KbName('=+');
 go_button = trigger;

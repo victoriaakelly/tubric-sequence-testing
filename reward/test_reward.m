@@ -1,7 +1,9 @@
-clear;
+clear all;
 close all;
 
-prompt = 'Enter subject number: ';
+subix  = 'Enter subject name: ';
+subID  = input(subix,'s');
+prompt = 'Enter block number: ';
 subjectnum = input(prompt);
 seq = randi([1 4], 1, 1);
 payout = ['payout_v' num2str(seq) '.mat'];
@@ -13,7 +15,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 
 %Make outputdir if it does not already exist%%%
 maindir = pwd;
-outputdir = fullfile(maindir,'data',subjectnum);
+outputdir = fullfile(maindir,'data',subID,subjectnum);
 if ~exist(outputdir,'dir')
     mkdir(outputdir);
 end
@@ -32,8 +34,8 @@ try
     %scanner_practice;
     trial_setup;
     
-    cues(1) = 2;%randi([1 4],1,1);
-    cues(2) = 6;%randi([5 8],1,1);
+    cues(1) = subjectnum; %randi([1 4],1,1);
+    cues(2) = cues(1) + 4;
     
     for b = 1:length(randblocks)
         block = randblocks(b);
