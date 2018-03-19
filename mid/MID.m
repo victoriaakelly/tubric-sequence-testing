@@ -70,7 +70,7 @@ catch
 end
 
 if ~isempty(practice_files)                             % checks to see whether there is practice data or not. Overwrite if there is
-    load(practice_files(1:end-1),'RTs'); %(1:end-1) practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
+    load(practice_files,'RTs'); % (1:end-1) practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
 end
 
 for i=1:length(unique(trial_cond))                     % sets starting RT_thresh for each condition
@@ -143,7 +143,7 @@ Screen('DrawTexture', Window, fix2);
 Screen('Flip', Window);
 WaitSecs(2);
 
-for t = 1:2%length(trial_cond)
+for t = 1:length(trial_cond)
     %Present Cue
     if trial_cond(t) == 1
         Screen('DrawTexture', Window, high_cue);
@@ -161,7 +161,7 @@ for t = 1:2%length(trial_cond)
     %Present Target
     Screen('DrawTexture', Window, target);
     targetST = Screen('Flip', Window);
-    [keys RT] = recordKeysNoBT(GetSecs, 1, k, backtick);
+    [keys, RT] = recordKeysNoBT(GetSecs, 1, k, backtick);
     
     text_feedback = '';
     %Present Feedback
@@ -199,8 +199,14 @@ for t = 1:2%length(trial_cond)
     output.thresh(t) = RT_thresh(trial_cond(t));
 end
 
+while (GetSecs - runST) < 560
+end
+
+run_time = GetSecs - runST;
+WaitSecs(2);
+
 toc
-output.dur = GetSecs - runST;
+output.dur = run_time;
 output.condition = trial_cond;
 output.fix1 =fix1_duration;
 output.fix2 = fix2_duration;
