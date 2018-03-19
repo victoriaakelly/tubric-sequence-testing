@@ -1,7 +1,7 @@
 %function MID2(isscan, subnum)
 
-subnum = input('subnumber: ');
-isscan = input('practice = 0 scan = 1: ');
+subID = input('Enter subject name: ', 's');
+isscan = input('practice = 0 block = 1:4 : ');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %subnum - subject number is 0 for practice, real number if it is a run
@@ -61,16 +61,16 @@ end
 
 
 backtick = '=';
-mkdir(fullfile(thePath.data,num2str(subnum)));
+mkdir(fullfile(thePath.data,subID));
 RTs  =[];
 try
-    practice_files = ls([fullfile(thePath.data ,num2str(subnum)), '/practice_array.mat']);
+    practice_files = ls([fullfile(thePath.data ,subID), '/practice_array.mat']);
 catch
     practice_files = [];
 end
 
 if ~isempty(practice_files)                             % checks to see whether there is practice data or not. Overwrite if there is
-    load(practice_files,'RTs'); %(1:end-1) practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
+    load(practice_files(1:end-1),'RTs'); %(1:end-1) practice_files has an extra space character added to the string name, hence the 1:end-1 in the code
 end
 
 for i=1:length(unique(trial_cond))                     % sets starting RT_thresh for each condition
@@ -92,7 +92,7 @@ screenNumber = max(screens); HideCursor;
 
 % USE THESE LINES FOR SET SCREEN
 screenRect = [ 0 0 1024 768];
-[Window, Rect] = Screen('OpenWindow', screenNumber, 0, screenRect);
+[Window, Rect] = Screen('OpenWindow', screenNumber, 0);%, screenRect);
 Screen('TextSize',Window,text_size);
 Screen('FillRect', Window, 0);  % 0 = black background
 
@@ -143,7 +143,7 @@ Screen('DrawTexture', Window, fix2);
 Screen('Flip', Window);
 WaitSecs(2);
 
-for t = 1:3%length(trial_cond)
+for t = 1:2%length(trial_cond)
     %Present Cue
     if trial_cond(t) == 1
         Screen('DrawTexture', Window, high_cue);
@@ -206,9 +206,9 @@ output.fix1 =fix1_duration;
 output.fix2 = fix2_duration;
 
 
-save([thePath.data '/' num2str(subnum) '/output_' num2str(isscan) '.mat'], 'stim', 'output')
+save([thePath.data '/' subID '/output_' num2str(isscan) '.mat'], 'stim', 'output')
 if isscan == 0
-    save([thePath.data '/' num2str(subnum) '/practice_array.mat'], 'RTs')
+    save([thePath.data '/' subID '/practice_array.mat'], 'RTs')
 end
 
 sca;
